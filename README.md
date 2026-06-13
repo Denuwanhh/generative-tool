@@ -16,43 +16,7 @@ An interactive Model Context Protocol (MCP) server that translates plain English
 
 ## 🏗️ Architecture
 
-```text
-┌────────────────────────────────────────────────────────┐
-│                 MCP Client (Ex. Claude Desktop)        │
-└──────────────────────────┬─────────────────────────────┘
-                           │
-                           │ 1. Sends Natural Language Query
-                           ▼
-┌────────────────────────────────────────────────────────┐
-│           main.py (FastMCP Server Application)         │◄─── Reads ─── [ .env Config ]
-└─────┬──────────────────────────────────────────▲───────┘
-      │                                          │
-      │ 2. Sends reflected metadata              │ 3. Returns Python script 
-      │    and user query                        │    using SQLAlchemy ORM
-      ▼                                          │
-┌──────────────────────────────────────────────────┐
-│            Anthropic API (Claude)                │
-└──────────────────────────────────────────────────┘
-      │
-      │ 4. Executes Python script under enforced 
-      │    read-only transaction options via exec()
-      ▼
-┌──────────────────────────────────────────────────┐
-│               PostgreSQL Database                │
-└─────┬────────────────────────────────────────────┘
-      │
-      │ 5. Returns query dataset
-      ▼
-┌──────────────────────────────────────────────────┐
-│            main.py (FastMCP Server)              │
-└─────┬────────────────────────────────────────────┘
-      │
-      │ 6. Formats records as structured XML
-      ▼
-┌──────────────────────────────────────────────────┐
-│                 User (Claude Desktop)            │
-└──────────────────────────────────────────────────┘
-```
+![Architecture Diagram](assets/architecture_diagram.png)
 
 ---
 
