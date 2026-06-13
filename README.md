@@ -16,16 +16,42 @@ An interactive Model Context Protocol (MCP) server that translates plain English
 
 ## 🏗️ Architecture
 
-```
-graph TD
-    User["User Request (Claude Desktop)"] -->|Query String| Server["main.py (FastMCP Server)"]
-    Server -->|Read Config| Env[".env Config"]
-    Server -->|Reflect Metadata| Database[("PostgreSQL Database")]
-    Server -->|Request Query Script| Anthropic["Anthropic API (Claude)"]
-    Anthropic -->|Returns Python Code| Server
-    Server -->|Runs code under read-only transaction via exec()| Database
-    Database -->|Query Results| Server
-    Server -->|Outputs Structured XML| User
+```text
+┌────────────────────────────────────────────────────────┐
+│                 MCP Client (Ex. Claude Desktop)        │
+└──────────────────────────┬─────────────────────────────┘
+                           │
+                           │ 1. Sends Natural Language Query
+                           ▼
+┌────────────────────────────────────────────────────────┐
+│           main.py (FastMCP Server Application)         │◄─── Reads ─── [ .env Config ]
+└─────┬──────────────────────────────────────────▲───────┘
+      │                                          │
+      │ 2. Sends reflected metadata              │ 3. Returns Python script 
+      │    and user query                        │    using SQLAlchemy ORM
+      ▼                                          │
+┌──────────────────────────────────────────────────┐
+│            Anthropic API (Claude)                │
+└──────────────────────────────────────────────────┘
+      │
+      │ 4. Executes Python script under enforced 
+      │    read-only transaction options via exec()
+      ▼
+┌──────────────────────────────────────────────────┐
+│               PostgreSQL Database                │
+└─────┬────────────────────────────────────────────┘
+      │
+      │ 5. Returns query dataset
+      ▼
+┌──────────────────────────────────────────────────┐
+│            main.py (FastMCP Server)              │
+└─────┬────────────────────────────────────────────┘
+      │
+      │ 6. Formats records as structured XML
+      ▼
+┌──────────────────────────────────────────────────┐
+│                 User (Claude Desktop)            │
+└──────────────────────────────────────────────────┘
 ```
 
 ---
