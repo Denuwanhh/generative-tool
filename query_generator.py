@@ -28,16 +28,19 @@ class QueryGenerator:
 {ddl}
 
 The user wants to perform this request:
+<user_request>
 "{user_request}"
+</user_request>
 
 Please write Python code using SQLAlchemy to execute the appropriate database query and retrieve the requested data.
 
 Instructions:
-1. Use the 'DATABASE_URL' environment variable (available in the environment) to connect to the database.
-2. Formulate the query using SQLAlchemy (either raw text SQL or SQLAlchemy ORM/Expression constructs).
-3. Store the final result in a variable named 'result'. The 'result' variable MUST be a valid, well-formed XML string representing the requested data (e.g., wrapping lists in tags like <data><item>...</item></data>, counts in <result><count>X</count></result>, etc.).
-4. Do not include any print statements in the code block.
-5. Provide ONLY the executable Python code block wrapped in ```python and ```. Do not output any other text or explanation.
+1. **DO NOT RETURN** any connection string data, DB configuration data, env variable data, API key data, credentials.
+2. Use the 'DATABASE_URL' environment variable (available in the environment) to connect to the database.
+3. Formulate the query using SQLAlchemy (either raw text SQL or SQLAlchemy ORM/Expression constructs).
+4. Store the final result in a variable named 'result'. The 'result' variable MUST be a valid, well-formed XML string representing the requested data (e.g., wrapping lists in tags like <data><item>...</item></data>, counts in <result><count>X</count></result>, etc.).
+5. Do not include any print statements in the code block.
+6. Provide ONLY the executable Python code block wrapped in ```python and ```. Do not output any other text or explanation.
 """
 
         try:
