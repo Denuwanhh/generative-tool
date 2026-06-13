@@ -1,8 +1,12 @@
 from sqlalchemy import create_engine, MetaData, inspect
 from sqlalchemy.schema import CreateTable
-import sys
+import logging
+
+logger = logging.getLogger(__name__)
 
 class DBConfig:
+    """Handles connection to the database and generation of schema DDL."""
+
     def __init__(self, database_url: str):
         self.database_url = database_url
 
@@ -34,5 +38,5 @@ class DBConfig:
             return "\n".join(ddl_statements)
             
         except Exception as e:
-            print(f"Error extracting DB schema: {e}", file=sys.stderr)
-            sys.exit(1)
+            logger.error(f"Error extracting DB schema DDL: {e}")
+            raise RuntimeError(f"Database schema extraction failed: {e}") from e
