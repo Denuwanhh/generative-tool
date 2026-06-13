@@ -29,7 +29,7 @@ class QueryGenerator:
 
 The user wants to perform this request:
 <user_request>
-"{user_request}"
+{user_request}
 </user_request>
 
 Please write Python code using SQLAlchemy to execute the appropriate database query and retrieve the requested data.
