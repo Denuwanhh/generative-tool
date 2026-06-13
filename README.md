@@ -16,7 +16,7 @@ An interactive Model Context Protocol (MCP) server that translates plain English
 
 ## 🏗️ Architecture
 
-```mermaid
+```
 graph TD
     User["User Request (Claude Desktop)"] -->|Query String| Server["main.py (FastMCP Server)"]
     Server -->|Read Config| Env[".env Config"]
